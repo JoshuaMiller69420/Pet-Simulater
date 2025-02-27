@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 import time
+import random
 
 
 class Pet(ABC):
-    def play(self):
-        print("I'm a game being played!")
+    #def play(self):
+    #    print("I'm a game being played!")
 
     def __init__(self, hunger=int, happiness=int, energy=int, name=str):
         self._hunger = hunger
@@ -17,28 +18,27 @@ class Pet(ABC):
             return self._hunger
 
         @hunger.setter
-        def hunger(self, hunger):
-            if hunger > 0 and hunger < 100:
-                self._hunger = hunger
-            elif hunger < 0:
+        def hunger(self, value):
+            if value < 0:
                 print("Hunger can not be less than 0")
                 self._hunger = 0
-            elif hunger > 100:
+            elif value > 100:
                 print("Hunger can not be greater than 100")
                 self._hunger = 100
+            else:
+                self._hunger = value
+                
 
         @property
         def happiness(self):
             return self._happiness
 
         @happiness.setter
-        def happiness(self, happiness):
-            if happiness > 0 and happiness < 100:
-                self._happiness = happiness
-            elif happiness < 0:
+        def happiness(self, value):
+            if value < 0:
                 print("Happiness can not be less than 0")
                 self._happiness = 0
-            elif happiness > 100:
+            elif value > 100:
                 print("Happiness can not be greater than 100")
                 self._happiness = 100
 
@@ -47,13 +47,13 @@ class Pet(ABC):
             return self._energy
 
         @energy.setter
-        def energy(self, energy):
-            if energy > 0 and energy < 100:
-                self._energy = energy
-            elif energy < 0:
+        def energy(self, value):
+            if value > 0 and value < 100:
+                self._energy = value
+            elif value < 0:
                 print("Energy can not be less than 0")
                 self._energy = 0
-            elif energy > 100:
+            elif value > 100:
                 print("Energy can not be greater than 100")
                 self._energy = 100
 
@@ -76,7 +76,16 @@ class Pet(ABC):
         print(f"Happiness: {self._happiness}/100")
 
     def random_event(self):
-        pass
+        event = random.randrange(10)
+        if event == 4:
+            self._hunger -= 10
+            print('Pet finds a snack.')
+        if event == 1:
+            self._happiness += 10
+            print('Pet plays alone.')
+        if event == 8:
+            self._energy -= 10
+            print('Pet has a bad dream.')
 
     @abstractmethod
     def special_ability(self):
@@ -152,17 +161,16 @@ def main():
         pet.random_event()
         pet.show_status()
         time.sleep(1)
-        choice = input(
-            '1.Feed \n2.Play \n3.Sleep \n4.Special Ability \n5.Exit \nChoose option: ')
-        if choice == '1':
+        choice = input('1.Feed \n2.Play \n3.Sleep \n4.Special Ability \n5.Exit \nChoose option: ')
+        if choice == "1":
             pet.feed()
-        elif choice == '2':
+        elif choice == "2":
             pet.play()
-        elif choice == '3':
+        elif choice == "3":
             pet.sleep()
-        elif choice == '4':
+        elif choice == "4":
             pet.special_ability()
-        elif choice == '5':
+        elif choice == "5":
             exit()
         
 
